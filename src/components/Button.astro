@@ -1,0 +1,152 @@
+---
+interface Props {
+	text: string;
+	type?: 'primary' | 'secondary' | 'experimental';
+	disabled?: boolean;
+	href?: string;
+	tilt?: number;
+	onclick?: string;
+}
+
+const { text, type = 'primary', disabled = false, href, tilt, onclick } = Astro.props;
+const Tag = href ? 'a' : 'button';
+const tiltStyle = tilt ? `transform: rotate(${tilt}deg);` : '';
+---
+
+{
+	type === 'experimental' ? (
+		<div class="experimental-wrapper">
+			<Tag
+				class={`button ${type}`}
+				disabled={disabled}
+				href={href}
+				style={tiltStyle}
+				onclick={onclick}
+				aria-disabled={disabled ? 'true' : undefined}
+			>
+				{text}
+			</Tag>
+			<span class="warning-text">⚠️ WARNING EXPERIMENTAL ⚠️</span>
+		</div>
+	) : (
+		<Tag
+			class={`button ${type}`}
+			disabled={disabled}
+			href={href}
+			style={tiltStyle}
+			onclick={onclick}
+			aria-disabled={disabled ? 'true' : undefined}
+		>
+			{text}
+		</Tag>
+	)
+}
+
+<style>
+	.button {
+		padding: clamp(0.4rem, 1vw, 0.5rem) clamp(1.25rem, 2vw, 1.5625rem);
+		margin: 4px;
+		border: 4px solid var(--text);
+		border-radius: 12px;
+		background-color: var(--bg);
+		color: var(--text);
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-size: clamp(0.6875rem, 1vw, 0.75rem);
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		cursor: pointer;
+		box-shadow: 0px 8px 0px var(--text);
+		transition: all 0.2s ease;
+		outline: none;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	.button:disabled {
+		pointer-events: none;
+		background: #d3d3d3;
+		cursor: not-allowed;
+		color: #5b5b5b;
+		box-shadow: 0px 4px 0px #575757;
+		border-color: #575757;
+	}
+
+	.button:hover:not(:disabled) {
+		background-color: #0000004b;
+		box-shadow: 0px 4px 0px var(--text);
+		transform: translateY(4px);
+	}
+
+	.button:active:not(:disabled) {
+		background-color: var(--bg);
+		box-shadow: 0px 0px 0px var(--text);
+		transform: translateY(8px);
+	}
+
+	.button.secondary {
+		background: transparent;
+		color: var(--text);
+	}
+
+	.button.secondary:hover:not(:disabled) {
+		background-color: var(--bg);
+		border-color: var(--accent);
+	}
+
+	.experimental-wrapper {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.button.experimental {
+		background: repeating-linear-gradient(45deg, #000000, #000000 20px, #ffcc00 20px, #ffcc00 40px);
+		color: #ffffff;
+		border-color: #ffcc00;
+		box-shadow: 0px 8px 0px #ffcc00;
+		text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
+	}
+
+	.button.experimental:hover:not(:disabled) {
+		background: repeating-linear-gradient(45deg, #1a1a1a, #1a1a1a 20px, #ffd700 20px, #ffd700 40px);
+		box-shadow: 0px 4px 0px #ffcc00;
+		transform: translateY(4px);
+	}
+
+	.button.experimental:active:not(:disabled) {
+		box-shadow: 0px 0px 0px #ffcc00;
+		transform: translateY(8px);
+	}
+
+	.warning-text {
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 1px;
+		color: #ffcc00;
+		text-transform: uppercase;
+		animation: pulse 1.5s ease-in-out infinite;
+		text-shadow: 1px 1px 2px rgb(0 0 0);
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.3;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.warning-text {
+			animation: none;
+			opacity: 1;
+		}
+	}
+</style>

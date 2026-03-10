@@ -1,0 +1,140 @@
+---
+import SVG1 from '../assets/layer-1.svg';
+import SVG2 from '../assets/layer-2.svg';
+import SVG3 from '../assets/layer-3.svg';
+---
+
+<div class="svg-stack">
+	<svg id="svg1" data-svg-url={SVG1.src} class="stacked-svg" style="opacity: 0"></svg>
+	<svg id="svg2" data-svg-url={SVG2.src} class="stacked-svg" style="opacity: 0"></svg>
+	<svg id="svg3" data-svg-url={SVG3.src} class="stacked-svg" style="opacity: 0"></svg>
+	<div class="stacked">
+		<picture>
+			<source media="(min-width: 1200px)" srcset="/hero-lg.png" width="700" height="700" />
+			<source media="(min-width: 416px)" srcset="/hero-md.png" width="450" height="450" />
+			<img
+				src="/hero-sm.png"
+				alt="Engineer sitting cross legged"
+				width="300"
+				height="300"
+				loading="eager"
+				fetchpriority="high"
+				style="opacity: 1; image-rendering: pixelated;"
+				decoding="async"
+				class="sam-pic"
+			/>
+		</picture>
+	</div>
+	<div class="stacked">
+		<span class="heading hero-text">I BUILD THINGS</span>
+	</div>
+</div>
+
+<style>
+	.svg-stack {
+		position: relative;
+		width: 100%;
+		height: 80vh;
+		margin-bottom: 4vh;
+		padding-top: 4vh;
+		transform: translateZ(0);
+	}
+
+	.stacked-svg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transform: translateZ(0);
+	}
+
+	.stacked {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform: scale(0.75) translateZ(0);
+	}
+
+	.stacked-svg.visible {
+		opacity: 1;
+	}
+
+	.sam-pic {
+		width: clamp(300px, 50vw, 600px);
+		height: clamp(300px, 50vw, 600px);
+		clip-path: polygon(
+			39% 8%,
+			37% 34%,
+			22% 27%,
+			3% 59%,
+			8% 79%,
+			4% 96%,
+			44% 96%,
+			69% 100%,
+			94% 94%,
+			92% 60%,
+			81% 45%,
+			81% 21%,
+			73% 1%,
+			46% 0%
+		);
+	}
+
+	.hero-text {
+		position: absolute;
+		z-index: 10;
+		font-size: clamp(4rem, 8vw, 10rem);
+		transform: rotate(4deg) translateY(clamp(4rem, 10vw, 10rem)) translateZ(0);
+		color: var(--text);
+		text-align: center;
+		background-color: var(--bg);
+		opacity: 0.9;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.hero-text {
+			color: #ffffff;
+		}
+	}
+</style>
+
+<script>
+	import { createFirstInteractionListener } from '../helpers/create-first-interaction-listener';
+	import { mountSVG } from '../helpers/mount-svg';
+	window.addEventListener('load', () => {
+		requestIdleCallback(async () => {
+			createFirstInteractionListener(async () => {
+				const svg1 = document.getElementById('svg1');
+				const svg2 = document.getElementById('svg2');
+				const svg3 = document.getElementById('svg3');
+
+				const svg1Url = svg1!.getAttribute('data-svg-url');
+				const svg2Url = svg2!.getAttribute('data-svg-url');
+				const svg3Url = svg3!.getAttribute('data-svg-url');
+
+				if (svg1Url) await mountSVG(svg1, svg1Url);
+				if (svg2Url) await mountSVG(svg2, svg2Url);
+				if (svg3Url) await mountSVG(svg3, svg3Url);
+
+				await window.animateSvgPath(svg1 as SVGAElement, {
+					duration: 1.5,
+					steps: 20,
+				});
+				await window.animateSvgPath(svg2 as SVGAElement, {
+					duration: 1.5,
+					steps: 20,
+				});
+				await window.animateSvgPath(svg3 as SVGAElement, {
+					duration: 2,
+					steps: 30,
+				});
+			});
+		});
+	});
+</script>

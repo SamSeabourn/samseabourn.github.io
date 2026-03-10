@@ -1,0 +1,33 @@
+---
+interface Props {
+	double?: boolean;
+	triple?: boolean;
+	quadruple?: boolean;
+}
+
+const { double, triple, quadruple } = Astro.props;
+
+let height: number;
+switch (true) {
+	case quadruple:
+		height = 8;
+		break;
+	case triple:
+		height = 6;
+		break;
+	case double:
+		height = 4;
+		break;
+	default:
+		height = 2;
+}
+---
+
+<div style={`height: ${height}rem`}></div>
+
+<style>
+	div {
+		width: 100%;
+		display: block;
+	}
+</style>

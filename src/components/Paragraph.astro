@@ -1,0 +1,26 @@
+---
+import type { JSX } from 'astro/jsx-runtime';
+
+interface Props {
+	heading: string;
+}
+
+const { heading } = Astro.props;
+---
+
+<div>
+	<h2 class="subheading">{heading.replace(',', ',\n')}</h2>
+	<p class="bodytext">
+		<slot />
+	</p>
+</div>
+
+<style>
+	h2 {
+		white-space: pre-line;
+	}
+
+	p {
+		margin-top: 1rem;
+	}
+</style>

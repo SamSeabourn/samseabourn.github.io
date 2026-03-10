@@ -1,0 +1,99 @@
+---
+import Layout from '../../../layout/Layout.astro';
+import ProjectBanner from '../../../components/ProjectBanner.astro';
+import BrowsersaurusBanner from '../../../assets/browsersaurus-banner.svg';
+import BrowsersaurusBannerDoodle from '../../../assets/browsersaurus-banner-doodle.svg';
+
+import ContentCard from '../../../components/ContentCard.astro';
+import CenterContainer from '../../../components/CenterContainer.astro';
+import Paragraph from '../../../components/Paragraph.astro';
+import Spacer from '../../../components/Spacer.astro';
+import Redacted from '../../../components/Redacted.astro';
+import Button from '../../../components/Button.astro';
+import DinoSpawner from '../../../components/DinoSpawner.astro';
+---
+
+<Layout>
+	<CenterContainer>
+		<ProjectBanner doodleId="dinoDoodle">
+			<BrowsersaurusBanner slot="logo" />
+			<BrowsersaurusBannerDoodle slot="doodle" />
+		</ProjectBanner>
+		<ContentCard title="Browsersaurus Rex">
+			<div class="pad">
+				<Paragraph heading="Building a Game,Inside a Browser Extension">
+					A Chrome extension that turns the web into a creature collection game. Every website
+					generates a unique, procedurally generated tyrannosaurus with autonomous AI. It's Pokémon
+					meets Tamagotchi, running entirely within the sandbox of a browser extension.
+				</Paragraph>
+			</div>
+			<div class="pad">
+				<Paragraph heading="The Technical Challenge,Engineering for the Sandbox">
+					<b>Context Orchestration:</b> Built a PixiJS based engine spanning four isolated contexts (Service
+					Worker, Content Script, Popup, and Hub) using typed message passing for state synchronisation.
+					<br />
+					<br />
+					<b>Bypassing Manifest V3:</b> Navigated strict CSP, dynamic asset bans, and Chrome's 128MB maximum
+					extension size limit by <Redacted
+						>████████ █████████ █████ ██ ███ ██████ ██████
+					</Redacted> and
+					<Redacted>███████ ███████ █████████ ██████ ██ ████████</Redacted>.
+					<br />
+					<br />
+					<b>Deterministic Generation:</b>
+					<Redacted>██████ █████ ███ ██████ ██ █████████████ ███████ ███████</Redacted> to seed appearance,
+					stats, and rarity. Same URL = Same Rex, for every user, forever.
+				</Paragraph>
+			</div>
+			<div class="pad">
+				<Paragraph heading="The Tech Stack">
+					<b>Graphics:</b> React, TypeScript, and PixiJS v7 with Spine 2D for skeletal animation and smooth
+					state transitions. I had to to bend PixiJS to handle dynamic runtime assets by <Redacted
+						>████████████ ███ ████████ ███████ █████ ███ ██████ ███████</Redacted
+					>.
+					<br />
+					<br />
+					<b>Performance:</b> Custom animation queue system and ticker management to pause game loops
+					when tabs are hidden, ensuring zero impact on host page performance.
+					<br />
+					<br />
+					<b>Persistence:</b>
+					<Redacted> █ ██████ ███████ █████ ████████ ████ ███████ ███ ████ ████</Redacted> within the
+					background worker.
+				</Paragraph>
+			</div>
+			<div class="pad">
+				<Paragraph heading="Why It Matters">
+					Browsersaurus Rex is my a playground for exploring the edges of browser sandbox
+					constraints. It's about making high fidelity graphics and complex procedural systems feel
+					native and magical in the most locked down environment on the web.
+				</Paragraph>
+			</div>
+			<Button
+				type="experimental"
+				text="Spawn a T-Rex"
+				onclick="window.dispatchEvent(new Event('spawn-dino-event'))"
+			/>
+		</ContentCard>
+		<Spacer triple />
+	</CenterContainer>
+	<DinoSpawner />
+</Layout>
+
+<style>
+	.inline-link {
+		color: var(--text);
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+		transition: opacity 0.2s ease;
+	}
+
+	.pad {
+		padding: 20px;
+	}
+
+	.inline-link:hover {
+		opacity: 0.7;
+	}
+</style>

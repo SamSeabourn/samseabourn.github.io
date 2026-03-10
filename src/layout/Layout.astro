@@ -1,0 +1,44 @@
+---
+import BuildStats from '../components/BuildStats.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Sam Seabourn | Senior Frontend Engineer</title>
+		<meta
+			name="description"
+			content="Senior frontend engineer specializing in high-performance TypeScript systems for Smart TVs, browser extensions, and large-scale platforms."
+		/>
+		<link
+			rel="preload"
+			href="/DepartureMono-Regular-core.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+
+		<script>
+			import { animateSvgPath } from '../helpers/animate-svg-path';
+			window.animateSvgPath = animateSvgPath;
+		</script>
+		<meta name="robots" content="index, follow" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Sam Seabourn | Frontend Systems Engineer" />
+		<meta
+			property="og:description"
+			content="Frontend Systems Engineer with 6+ years of experience building performance critical TypeScript systems for Smart TVs, browser extensions and large-scale streaming platforms. Google contributor."
+		/>
+		<meta property="og:url" content="https://samseabourn.com" />
+		<meta property="og:image" content="https://samseabourn.com/hero-md.png" />
+	</head>
+	<body>
+		{Astro.url.pathname === '/' && <BuildStats />}
+		<slot />
+	</body>
+</html>

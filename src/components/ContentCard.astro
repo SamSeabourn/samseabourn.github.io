@@ -1,0 +1,138 @@
+---
+interface Props {
+	title?: string;
+	skunkworks?: boolean;
+	speed?: string;
+}
+
+const { title, skunkworks = false, speed = '10s' } = Astro.props;
+---
+
+<section>
+	<div class={`card-content white-bg ${title ? 'border' : 'shadow'}`}>
+		{
+			skunkworks && (
+				<div class="skunkworks-banner">
+					<div class="marquee-wrapper" style={`--speed: ${speed};`}>
+						<div class="marquee-track">
+							<span class="marquee-content">
+								☆ SKUNKWORKS ☆ SKUNKWORKS ☆ SKUNKWORKS ☆ SKUNKWORKS &nbsp;
+							</span>
+							<span class="marquee-content" aria-hidden="true">
+								☆ SKUNKWORKS ☆ SKUNKWORKS ☆ SKUNKWORKS ☆ SKUNKWORKS &nbsp;
+							</span>
+						</div>
+					</div>
+				</div>
+			)
+		}
+		{
+			title && (
+				<div class="title-wrapper">
+					<h2 class="heading">{title}</h2>
+				</div>
+			)
+		}
+		<div class="slot-container">
+			<slot />
+		</div>
+	</div>
+</section>
+
+<style>
+	/* --- Your original layout styles --- */
+	h2 {
+		background-color: var(--text);
+		display: inline;
+		color: var(--bg);
+		padding-left: 1.25rem;
+		padding-right: 1.25rem;
+	}
+	.white-bg {
+		background-color: var(--bg);
+	}
+	section {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+	.title-wrapper {
+		background: linear-gradient(
+			to bottom,
+			var(--text) 0px,
+			var(--text) 4px,
+			var(--bg) 4px,
+			var(--bg) 8px
+		);
+		background-size: 100% 8px;
+		padding-top: 4px;
+	}
+	.card-content {
+		position: relative;
+		border: 0;
+		width: clamp(80%, 85vw, 90%);
+		max-width: 1400px;
+		z-index: 1;
+	}
+	.border {
+		border: 4px solid var(--text);
+		border-top: 0px solid transparent;
+	}
+	.shadow {
+		filter: drop-shadow(0px 0px 50px rgba(0, 0, 0, 0.2));
+	}
+	.slot-container {
+		padding: 2rem;
+	}
+
+	/* --- The Animated Banner --- */
+	.skunkworks-banner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		pointer-events: none;
+		z-index: 10;
+	}
+
+	.marquee-wrapper {
+		position: absolute;
+		left: clamp(-70%, -40%, -35%);
+		background: var(--text);
+		color: var(--bg);
+		transform: rotate(-45deg);
+		transform-origin: center center;
+		width: clamp(1000px, 100vw, 1400px);
+		padding: clamp(8px, 1vw, 12px) 0;
+	}
+
+	.marquee-track {
+		display: flex;
+		width: max-content; /* Critical: Track must be size of content */
+		animation: scroll var(--speed) linear infinite;
+	}
+
+	.marquee-content {
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-size: clamp(0.875rem, 1.2vw, 1.3rem);
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		white-space: nowrap;
+		display: inline-block;
+	}
+
+	@keyframes scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		} /* Slides exactly half the track width */
+	}
+	.marquee-content {
+		font-size: clamp(1.1rem, 1.4vw, 1.4rem);
+	}
+</style>

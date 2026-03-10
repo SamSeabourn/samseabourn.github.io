@@ -1,0 +1,24 @@
+---
+interface Props {
+	svgSrc: string;
+	title: string;
+	id: string;
+}
+
+const { svgSrc, title, id } = Astro.props;
+---
+
+<svg
+	data-hand-draw
+	data-svg-url={svgSrc || 'fuckk'}
+	id={id}
+	width="150"
+	height="150"
+	style="opacity: 0"></svg>
+<h3 class="subheading">{title}</h3>
+
+<style>
+	h3 {
+		text-align: center;
+	}
+</style>

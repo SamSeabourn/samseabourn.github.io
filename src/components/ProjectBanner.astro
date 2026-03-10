@@ -1,0 +1,76 @@
+---
+interface Props {
+	doodleId?: string;
+}
+
+const { doodleId } = Astro.props as Props;
+---
+
+<div class="banner-stack" aria-hidden="true">
+	<div class="stacked logo invert-dark">
+		<slot name="logo" />
+	</div>
+	<div class="stacked doodle" id={doodleId}>
+		<slot name="doodle" />
+	</div>
+</div>
+
+<style>
+	.banner-stack {
+		position: relative;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 3;
+		overflow: hidden;
+		will-change: transform;
+		transform: translateZ(0);
+		margin-bottom: 1rem;
+	}
+
+	.stacked {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.logo {
+		z-index: 1;
+	}
+
+	.doodle {
+		z-index: 2;
+		pointer-events: none;
+		opacity: 0;
+	}
+
+	@media (max-width: 600px) {
+		.banner-stack {
+			aspect-ratio: 16 / 4;
+		}
+	}
+</style>
+<script define:vars={{ doodleId }}>
+	window.addEventListener('load', () => {
+		requestIdleCallback(async () => {
+			if (doodleId) {
+				const svgWrapper = document.getElementById(doodleId);
+				if (svgWrapper) {
+					await window
+						.animateSvgPath(svgWrapper, {
+							duration: 1,
+							steps: 100,
+							sequencePaths: true,
+						})
+						.catch((error) => {
+							console.error('Path animation error:', error);
+						});
+				}
+			}
+		});
+	});
+</script>

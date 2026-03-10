@@ -1,0 +1,105 @@
+---
+import Layout from '../../../layout/Layout.astro';
+import ProjectBanner from '../../../components/ProjectBanner.astro';
+import StanBanner from '../../../assets/stan-banner.svg';
+import StanBannerDoodle from '../../../assets/stan-banner-doodle.svg';
+import ContentCard from '../../../components/ContentCard.astro';
+import CenterContainer from '../../../components/CenterContainer.astro';
+import Paragraph from '../../../components/Paragraph.astro';
+import Spacer from '../../../components/Spacer.astro';
+---
+
+<Layout>
+	<CenterContainer>
+		<ProjectBanner doodleId="stanDoodle">
+			<StanBanner slot="logo" />
+			<StanBannerDoodle slot="doodle" />
+		</ProjectBanner>
+		<ContentCard title="My Work At Stan">
+			<div class="pad">
+				<Paragraph heading="Four Years,Building Australia's Streaming Platform">
+					For the past 4 years, I've been part of the six person team powering <b>Stan</b>,
+					Australia's largest homegrown streaming service.
+					<br />
+					I maintain the core TV app running on 175+ platforms serving 1.3M+ users across smart TVs, game
+					consoles, and set top boxes.
+					<br />
+					From the 2024 Olympics to daily binge watching, every stream on TV runs through code I've written.
+				</Paragraph>
+			</div>
+			<div class="pad">
+				<Paragraph heading="Open Source,Awards, and Big Wins">
+					I contributed a <a
+						href="https://github.com/shaka-project/shaka-player/pull/9066"
+						target="_blank"
+						rel="noopener"
+						class="inline-link"
+						>4x performance improvement to Google's open-source Shaka Player HLS parser</a
+					>, work that earned the Nine Digital Annual Award for "No Stone Left Unturned" (one of
+					only four awards given annually).
+					<br />
+					Led a device compatibility initiative that brought 2015+ legacy devices onto the latest app
+					version, increasing platform coverage by 30%.
+					<br />
+					My work spans video playback engineering, performance optimisation, internal tooling, and systems
+					architecture. I am always focused on making Stan work flawlessly on extremely constrained hardware
+					running ancient browser webviews.
+				</Paragraph>
+			</div>
+			<div class="pad">
+				<Paragraph heading="The Tech Stack">
+					Built with React, TypeScript, and Redux running across Tizen, WebOS, WebMAF, and dozens of
+					platforms.
+					<br />
+					Webpack handles the heavy lifting for 175+ device configurations each with unique quirks and
+					limitations. Targeting devices all the way down to chrome 38 and Safari 7.
+					<br />
+					I've built custom internal tooling work around native tooling gaps, creating a unified dev experience
+					across every platform.
+					<br />
+					It's the kind of infrastructure work that doesn't ship features but makes shipping features
+					possible.
+					<br />
+					Of course I have done my own fair share of features too.
+				</Paragraph>
+			</div>
+			<div class="pad">
+				<Paragraph heading="Systems,Tools, and Team Impact">
+					Beyond features, I build the infrastructure teams rely on.
+					<br />
+					Designed testing pipelines for QA teams enabling robust video and ad testing across devices.
+					<br />
+					Built internal libraries for logging, performant animations, analytics, and error handling used
+					across all platforms.
+					<br />
+					Refactored monolithic codebases into modular components.
+					<br />
+					I've Mentored junior developers, hosted organisation wide tech talks, and represented developers
+					in Stan's internal design system guild.
+					<br />
+					My team also won the "Best teamwork award in the Nine digitals "Hack into History" hackathon,
+					proving good code can be fun too.
+				</Paragraph>
+			</div>
+		</ContentCard>
+		<Spacer triple />
+	</CenterContainer>
+</Layout>
+
+<style>
+	.inline-link {
+		color: var(--text);
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+		transition: opacity 0.2s ease;
+	}
+
+	.pad {
+		padding: 20px;
+	}
+
+	.inline-link:hover {
+		opacity: 0.7;
+	}
+</style>

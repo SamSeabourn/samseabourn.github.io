@@ -1,0 +1,218 @@
+---
+import CenterContainer from '../components/CenterContainer.astro';
+import Button from '../components/Button.astro';
+import ContentCard from '../components/ContentCard.astro';
+import BigText from '../components/BigText.astro';
+import Opstar from '../assets/opstar.svg';
+import Paragraph from '../components/Paragraph.astro';
+import Hero from '../components/Hero.astro';
+import Layout from '../layout/Layout.astro';
+import Bento from '../components/Bento.astro';
+import TrexLogo from '../assets/dino-frame-1.svg';
+import reactLogo from '../assets/react-logo.svg';
+import tsLogo from '../assets/ts-logo.svg';
+import nodeLogo from '../assets/node-logo.svg';
+import toolingLogo from '../assets/tooling-logo.svg';
+import arcLogo from '../assets/arc-logo.svg';
+import dxLogo from '../assets/dx-logo.svg';
+import frameworkLogo from '../assets/framework-logo.svg';
+import webpackLogo from '../assets/webpack-logo.svg';
+import StanLogo from '../assets/stan.svg';
+import PlaywrightEmbeddedLogo from '../assets/pw-embedded.svg';
+import SaltLMSLogo from '../assets/salt-lms.svg';
+import chromeextLogo from '../assets/chrome-ext-logo.svg';
+import tvLogo from '../assets/tv-logo.svg';
+import perfLogo from '../assets/perf-logo.svg';
+import Spacer from '../components/Spacer.astro';
+import pixiLogo from '../assets/pixi-logo.svg';
+import compatLogo from '../assets/compat-logo.svg';
+import greenFieldLogo from '../assets/green-field-logo.svg';
+import spaghettiLogo from '../assets/spaghetti-logo.svg';
+import spineLogo from '../assets/spine-logo.svg';
+import viteLogo from '../assets/vite-logo.svg';
+import zustandLogo from '../assets/zustand-logo.svg';
+import pwLogo from '../assets/pw-logo.svg';
+---
+
+<Layout>
+	<CenterContainer>
+		<Hero />
+		<ContentCard title="About Me">
+			<Bento associatedLogos={[]} layoutVariant="alt">
+				<slot slot="top-left">
+					<img
+						src="/line-drawing-md.png"
+						srcset="/line-drawing-sm.png 150w, /line-drawing-md.png 200w, /line-drawing-lg.png 300w"
+						sizes="(min-width: 768px) 200px, 150px"
+						alt="Sam Line drawing"
+						width="150"
+						height="300"
+						loading="lazy"
+						decoding="async"
+					/>
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="Hi I’m Sam, A Frontend Systems Engineer.">
+						I’m a Systems Engineer with over six years of experience designing and building
+						performance critical systems for constrained environments.
+						<br />
+						While my primary stack is React, TypeScript and Redux, I’m a web purist at heart and regularly
+						go beyond frameworks when the problem demands it.
+						<br />
+						Outside of work, I’m usually raising my two boys, out on my bike, or at my desk making something
+						with software, hardware or keeping my 3D printer busy.
+					</Paragraph>
+				</slot>
+			</Bento>
+		</ContentCard>
+		<Spacer triple />
+		<BigText title={'My Work'} />
+		<ContentCard>
+			<Bento
+				associatedLogos={[
+					{ svgSrc: reactLogo.src, title: 'React' },
+					{ svgSrc: tsLogo.src, title: 'TypeScript' },
+					{ svgSrc: nodeLogo.src, title: 'Node.js' },
+					{ svgSrc: toolingLogo.src, title: 'Internal Tooling' },
+					{ svgSrc: arcLogo.src, title: 'Frontend System Design' },
+					{ svgSrc: dxLogo.src, title: 'Developer Experience' },
+					{ svgSrc: frameworkLogo.src, title: 'Frameworks Design' },
+					{ svgSrc: webpackLogo.src, title: 'Webpack' },
+					{ svgSrc: tvLogo.src, title: 'OTT, Smart TV, Console' },
+					{ svgSrc: compatLogo.src, title: 'Browser Compatibly' },
+					{ svgSrc: perfLogo.src, title: 'Web Performance Optimisation' },
+				]}
+				layoutVariant="alt"
+			>
+				<slot slot="top-left">
+					<StanLogo width={400} height={400} class="invert-dark" />
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="TV Platforms Engineer, Stan">
+						I architect and build the engine behind Australia’s largest home grown streaming
+						service. Delivering 2024 Olympics, live sport and video on demand to 2M+ users on
+						different 180+ platforms. <br /> I specialize in high stakes architecture and performance
+						in resource constrained environments.</Paragraph
+					>
+					<Spacer />
+					<Button href="/projects/stan" text="More about Stan" />
+				</slot>
+			</Bento>
+		</ContentCard>
+		<Spacer double />
+		<ContentCard skunkworks>
+			<Bento
+				associatedLogos={[
+					{ svgSrc: pwLogo.src, title: 'Playwright' },
+					{ svgSrc: toolingLogo.src, title: 'Custom Tooling' },
+					{ svgSrc: tsLogo.src, title: 'TypeScript' },
+					{ svgSrc: tvLogo.src, title: 'Smart TV Testing' },
+					{ svgSrc: dxLogo.src, title: 'Developer Experience' },
+				]}
+				layoutVariant="alt"
+			>
+				<slot slot="top-left">
+					<PlaywrightEmbeddedLogo width={400} height={400} class="invert-dark" />
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="Playwright-Embedded, Personal project">
+						An automated testing framework solving a previously unsolved problem: running E2E tests
+						on real hardware that uses embedded browsers. This project enables dynamic multi device
+						test orchestration without CDP, hardware, manual device configs or awkward native
+						platform test integration.
+					</Paragraph>
+				</slot>
+			</Bento>
+		</ContentCard>
+		<Spacer double />
+		<ContentCard skunkworks>
+			<Bento
+				associatedLogos={[
+					{ svgSrc: reactLogo.src, title: 'React' },
+					{ svgSrc: tsLogo.src, title: 'TypeScript' },
+					{ svgSrc: pixiLogo.src, title: 'PixiJS' },
+					{ svgSrc: zustandLogo.src, title: 'Zustand' },
+					{ svgSrc: chromeextLogo.src, title: 'Extension Development' },
+					{ svgSrc: spineLogo.src, title: 'Spine3D' },
+					{ svgSrc: viteLogo.src, title: 'Vite' },
+				]}
+				layoutVariant="alt"
+			>
+				<slot slot="top-left">
+					<TrexLogo width={400} height={400} class="invert-dark" />
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="Browsersaurus, Personal project">
+						A Chrome extension game where every website you visit spawns a unique collectible
+						dinosaur. Built solo to explore the challenge of running a fully featured creature
+						collection game within browser extension constraints. No native modules, limited storage
+						and deterministic skin generation.
+					</Paragraph>
+					<Button href="/projects/browsersaurus" text="More about Stan" />
+				</slot>
+			</Bento>
+		</ContentCard>
+		<Spacer double />
+		<ContentCard>
+			<Bento
+				associatedLogos={[
+					{ svgSrc: reactLogo.src, title: 'React' },
+					{ svgSrc: tsLogo.src, title: 'TypeScript' },
+					{ svgSrc: frameworkLogo.src, title: 'Hooks & Context' },
+					{ svgSrc: webpackLogo.src, title: 'Webpack' },
+				]}
+				layoutVariant="alt"
+			>
+				<slot slot="top-left">
+					<SaltLMSLogo width={400} height={400} class="invert-dark" />
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="Frontend Engineer, Salt LMS">
+						Led a frontend modernisation project award winning LMS serving 300K+ users. Rebuilt 22
+						year old SCORM course player from legacy JavaScript into React, architected
+						authentication system, and shipped complete UI redesign while maintaining backward
+						compatibility.
+					</Paragraph>
+				</slot>
+			</Bento>
+		</ContentCard>
+		<Spacer double />
+		<ContentCard>
+			<Bento
+				associatedLogos={[
+					{ svgSrc: reactLogo.src, title: 'React' },
+					{ svgSrc: tsLogo.src, title: 'TypeScript' },
+					{ svgSrc: arcLogo.src, title: 'System Architecture' },
+					{ svgSrc: dxLogo.src, title: 'Real-time Data' },
+				]}
+				layoutVariant="alt"
+			>
+				<slot slot="top-left">
+					<Opstar width={400} height={400} class="invert-dark" />
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="Frontend Engineer, Opstar (Solentive)">
+						Built real-time weather visualization for aircraft rescue coordination system used by
+						emergency response teams. Integrated NOAA data to display wind patterns and
+						altitude-aware forecasts for ground teams responding to downed aircraft in high-pressure
+						scenarios.
+					</Paragraph>
+				</slot>
+			</Bento>
+		</ContentCard>
+	</CenterContainer>
+	<script>
+		import { getRuntimeStats } from '../helpers/runtime-stats';
+		import { initIconObservers } from '../helpers/init-icon-observers';
+
+		document.addEventListener('DOMContentLoaded', () => {
+			if ('requestIdleCallback' in window) {
+				requestIdleCallback(() => initIconObservers());
+			} else {
+				setTimeout(initIconObservers, 200);
+			}
+		});
+
+		getRuntimeStats();
+	</script>
+</Layout>

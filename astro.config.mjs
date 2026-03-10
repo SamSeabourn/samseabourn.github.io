@@ -1,0 +1,45 @@
+import { defineConfig } from 'astro/config';
+import Compress from '@playform/compress';
+import playformInline from '@playform/inline';
+import rename from 'astro-rename';
+
+export default defineConfig({
+	output: 'static',
+	scopedStyleStrategy: 'class',
+	site: 'https://samseabourn.github.io',
+	integrations: [
+		rename({
+			rename: {
+				strategy: (name) =>
+					name.replace(/^astro-/, 'a-'),
+				by: 'whole'
+			}
+		}),
+		Compress({
+			CSS: true,
+			HTML: true,
+			JavaScript: true,
+			SVG: false,
+			Logger: 2,
+		}),
+		playformInline({
+			Beasties: true,
+			Fonts: true,
+			SVG: false,
+			Logger: 2
+		}),
+	],
+	vite: {
+		plugins: [],
+		server: {
+			host: true,
+		},
+		preview: {
+			host: true,
+			allowedHosts: ['.ngrok-free.app', '.ngrok.io'],
+		},
+		esbuild: {
+			// drop: ['console', 'debugger'],
+		},
+	},
+});

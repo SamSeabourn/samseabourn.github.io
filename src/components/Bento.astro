@@ -1,0 +1,139 @@
+---
+import LogoTile from './LogoTile.astro';
+
+interface Props {
+	associatedLogos?: Array<{ svgSrc: string; title: string }>;
+	layoutVariant?: 'default' | 'alt';
+}
+
+const { associatedLogos, layoutVariant = 'default' } = Astro.props;
+---
+
+<div class={`bento-container variant-${layoutVariant}`}>
+	<div class="item featured first main-image">
+		<slot name="top-left" />
+	</div>
+	<div class="item featured second">
+		<slot name="top-right" />
+	</div>
+	{
+		associatedLogos?.map((logo, index) => (
+			<div class="item">
+				<LogoTile svgSrc={logo.svgSrc} title={logo.title} id={`logo-${index}`} />
+			</div>
+		))
+	}
+</div>
+
+<style>
+	@media (max-width: 535px) {
+		.item {
+			aspect-ratio: auto;
+			padding: 20px;
+			min-height: 150px;
+		}
+	}
+	.bento-container {
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
+		gap: 12px;
+		padding: 20px;
+		margin: 0 auto;
+	}
+
+	.item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: sans-serif;
+		font-weight: bold;
+		aspect-ratio: 1 / 1;
+		flex-direction: column;
+	}
+
+	.featured {
+		grid-column: span 1;
+		padding: 0.5rem;
+	}
+
+	.featured.first:first-child {
+		justify-content: left;
+	}
+
+	@media (min-width: 768px) {
+		.main-image > :first-child {
+			justify-content: left;
+		}
+		.bento-container {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.variant-alt .featured.first {
+			grid-column: span 2;
+			aspect-ratio: auto;
+		}
+
+		.variant-alt .featured.second {
+			grid-column: span 2;
+			aspect-ratio: auto;
+		}
+	}
+	@media (min-width: 1024px) {
+		.bento-container {
+			grid-template-columns: repeat(8, 1fr);
+		}
+
+		.variant-alt .featured.first {
+			grid-column: span 4;
+			aspect-ratio: auto;
+		}
+
+		.variant-alt .featured.second {
+			grid-column: span 4;
+			aspect-ratio: auto;
+		}
+
+		.item {
+			grid-column: span 2;
+		}
+	}
+	@media (min-width: 1200px) {
+		.bento-container {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		.variant-alt .featured.first {
+			grid-column: span 1;
+			aspect-ratio: auto;
+			padding: 2rem;
+		}
+
+		.variant-alt .featured.second {
+			grid-column: span 2;
+			aspect-ratio: auto;
+			padding: 2rem;
+		}
+
+		.item {
+			grid-column: span 1;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.bento-container {
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		.variant-alt .featured.first {
+			grid-column: span 1;
+			aspect-ratio: auto;
+			padding: 2rem;
+		}
+
+		.variant-alt .featured.second {
+			grid-column: span 3;
+			padding: 2rem;
+			aspect-ratio: auto;
+		}
+	}
+</style>

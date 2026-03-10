@@ -1,0 +1,26 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<section>
+	<div>
+		<h1 class="big-heading">{title}</h1>
+	</div>
+</section>
+
+<style>
+	section {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+	div {
+		text-align: left;
+		width: clamp(80%, 85vw, 90%);
+		max-width: 1400px;
+	}
+</style>

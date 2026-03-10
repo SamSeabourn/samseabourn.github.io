@@ -1,0 +1,43 @@
+rex.png
+size:3330,1957
+filter:Linear,Linear
+pma:false
+Green/L arm
+bounds:2840,30,147,342
+rotate:90
+Green/L leg
+bounds:1093,295,386,1089
+offsets:0,2,386,1091
+rotate:90
+Green/R arm
+bounds:2,9,246,442
+rotate:90
+Green/R leg
+bounds:2,257,424,1089
+offsets:0,0,441,1089
+rotate:90
+Green/back up jaw
+bounds:446,20,434,235
+Green/body
+bounds:2,683,3326,1272
+Green/eye
+bounds:1379,110,216,183
+offsets:0,0,216,184
+Green/eye lid
+bounds:1597,136,186,157
+Green/low back jaw
+bounds:2858,179,502,440
+offsets:55,0,557,440
+rotate:90
+Green/tunge
+bounds:2184,2,373,380
+rotate:90
+Meat
+bounds:1105,75,218,272
+rotate:90
+Meat Big
+bounds:2184,377,672,304
+Poop
+bounds:882,32,221,223
+egg
+bounds:2566,4,272,371

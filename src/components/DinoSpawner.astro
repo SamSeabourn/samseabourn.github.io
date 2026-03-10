@@ -1,0 +1,155 @@
+---
+
+---
+
+<div id="dino-overlay" class="dino-overlay hidden">
+	<div id="dino-root"></div>
+</div>
+
+<style>
+	.dino-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0);
+		z-index: 9999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.dino-overlay.hidden {
+		display: none;
+	}
+
+	#dino-root {
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+<script>
+	let pixiApp: any = null;
+
+	window.addEventListener('spawn-dino-event', async () => {
+		window.trexStomp = function (intensity = 5) {
+			const el = document.body;
+			const originalStyle = el.style.position;
+
+			// Ensure the body can be moved relative to its normal spot
+			el.style.position = 'relative';
+
+			// 1. The initial heavy impact (Down)
+			el.style.top = `${intensity}px`;
+
+			// 2. The bounce back (Up)
+			setTimeout(() => {
+				el.style.top = `${-intensity / 2}px`;
+			}, 50);
+
+			// 3. The settle (Back to 0)
+			setTimeout(() => {
+				el.style.top = '0px';
+				el.style.position = originalStyle; // Reset to original state
+			}, 100);
+		};
+		const overlay = document.getElementById('dino-overlay');
+		const dinoRoot = document.getElementById('dino-root') as HTMLCanvasElement;
+
+		if (!overlay || !dinoRoot) {
+			return;
+		}
+
+		try {
+			overlay.classList.remove('hidden');
+			const PIXI = await import('pixi.js');
+			const { spawnDino } = await import('../helpers/dino/spawn-dino');
+
+			pixiApp = new PIXI.Application({
+				width: window.innerWidth,
+				height: window.innerHeight,
+				antialias: true,
+				autoDensity: true,
+				resolution: window.devicePixelRatio || 1,
+				backgroundAlpha: 0,
+				backgroundColor: 'black',
+			});
+
+			const appCanvas = pixiApp.view as HTMLCanvasElement;
+			appCanvas.style.position = 'fixed';
+			appCanvas.style.zIndex = '10';
+			appCanvas.style.top = '0';
+			appCanvas.id = '🦖_ _ _ _ _ ';
+			appCanvas.style.pointerEvents = 'none';
+
+			dinoRoot.appendChild(appCanvas);
+
+			const x = 0 - 100;
+			const y = window.innerHeight;
+
+			const dino = await spawnDino({
+				canvasElement: appCanvas,
+				xPlane: {
+					min: 40,
+					max: window.innerWidth - 40,
+				},
+				spawnPoint: { x, y },
+				scale: 1,
+			});
+
+			pixiApp.stage.addChild(dino.shadow);
+			pixiApp.stage.addChild(dino.character);
+
+			let wasLeftTouching = false;
+			let wasRightTouching = false;
+			let frameCount = 0;
+			const LEFT_FOOT_FLOOR_THRESHOLD = 10;
+			const RIGHT_FOOT_FLOOR_THRESHOLD = 10;
+
+			pixiApp.ticker.add(() => {
+				const rightFoot = dino.character.skeleton.findBone('R toe');
+				const leftFoot = dino.character.skeleton.findBone('L toe');
+
+				if (!leftFoot || !rightFoot) {
+					return;
+				}
+
+				const leftFootPosition = new PIXI.Point(leftFoot.worldX, leftFoot.worldY);
+				const rightFootPosition = new PIXI.Point(rightFoot.worldX, rightFoot.worldY);
+
+				const globalLeftFootPos = dino.character.toGlobal(leftFootPosition);
+				const globalRightFootPos = dino.character.toGlobal(rightFootPosition);
+
+				const leftTouching = globalLeftFootPos.y > window.innerHeight - LEFT_FOOT_FLOOR_THRESHOLD;
+				const rightTouching =
+					globalRightFootPos.y > window.innerHeight - RIGHT_FOOT_FLOOR_THRESHOLD;
+
+				if (rightTouching && leftTouching) {
+					return;
+				}
+
+				if (frameCount++ % 10 === 0) {
+					if (leftTouching && !wasLeftTouching) {
+						wasRightTouching = false;
+						if (!wasLeftTouching) {
+							wasLeftTouching = true;
+							window.trexStomp();
+						}
+					}
+					if (rightTouching && !wasRightTouching) {
+						wasLeftTouching = false;
+						if (!wasRightTouching) {
+							wasRightTouching = true;
+							window.trexStomp();
+						}
+					}
+				}
+			});
+			dino.startAi();
+		} catch (error) {
+			console.error('❌ FULL ERROR DETAILS:', error);
+		}
+	});
+</script>

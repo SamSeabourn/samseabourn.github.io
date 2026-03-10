@@ -1,0 +1,22 @@
+---
+// Extract slot content to count characters
+const slotContent = await Astro.slots.render('default');
+// Strip HTML tags to get actual text
+const text = slotContent.replace(/<[^>]*>/g, '');
+// Replace each character with * but preserve spaces
+const redacted = text.replace(/\S/g, '*');
+---
+
+<span class="redacted" aria-label="redacted text">
+	{redacted}
+</span>
+
+<style>
+	.redacted {
+		color: var(--text);
+		background: var(--text);
+		user-select: none;
+		cursor: default;
+		letter-spacing: 0.1em;
+	}
+</style>
