@@ -32,6 +32,8 @@ import spineLogo from '../assets/spine-logo.svg';
 import viteLogo from '../assets/vite-logo.svg';
 import zustandLogo from '../assets/zustand-logo.svg';
 import pwLogo from '../assets/pw-logo.svg';
+import ButtonWrapper from '../components/ButtonWrapper.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
@@ -81,6 +83,7 @@ import pwLogo from '../assets/pw-logo.svg';
 					{ svgSrc: tvLogo.src, title: 'OTT, Smart TV, Console' },
 					{ svgSrc: compatLogo.src, title: 'Browser Compatibly' },
 					{ svgSrc: perfLogo.src, title: 'Web Performance Optimisation' },
+					{ svgSrc: spaghettiLogo.src, title: 'Legacy rewrite' },
 				]}
 				layoutVariant="alt"
 			>
@@ -95,7 +98,40 @@ import pwLogo from '../assets/pw-logo.svg';
 						in resource constrained environments.</Paragraph
 					>
 					<Spacer />
-					<Button href="/projects/stan" text="More about Stan" />
+					<ButtonWrapper position="right">
+						<Button href="/projects/stan" text="More about Stan" />
+					</ButtonWrapper>
+				</slot>
+			</Bento>
+		</ContentCard>
+		<Spacer double />
+		<ContentCard skunkworks>
+			<Bento
+				associatedLogos={[
+					{ svgSrc: reactLogo.src, title: 'React' },
+					{ svgSrc: tsLogo.src, title: 'TypeScript' },
+					{ svgSrc: pixiLogo.src, title: 'PixiJS' },
+					{ svgSrc: zustandLogo.src, title: 'Zustand' },
+					{ svgSrc: chromeextLogo.src, title: 'Extension Development' },
+					{ svgSrc: spineLogo.src, title: 'Spine3D' },
+					{ svgSrc: viteLogo.src, title: 'Vite' },
+				]}
+				layoutVariant="alt"
+			>
+				<slot slot="top-left">
+					<TrexLogo width={400} height={400} class="invert-dark" />
+				</slot>
+				<slot slot="top-right">
+					<Paragraph heading="Browsersaurus, Personal project">
+						A Chrome extension game where every website you visit spawns a unique collectible
+						dinosaur. Built solo to explore the challenge of running a fully featured creature
+						collection game within browser extension constraints. No native modules, limited storage
+						and deterministic skin generation.
+					</Paragraph>
+					<Spacer />
+					<ButtonWrapper position="right">
+						<Button href="/projects/browsersaurus" text="More about Browsersaurus" />
+					</ButtonWrapper>
 				</slot>
 			</Bento>
 		</ContentCard>
@@ -125,41 +161,14 @@ import pwLogo from '../assets/pw-logo.svg';
 			</Bento>
 		</ContentCard>
 		<Spacer double />
-		<ContentCard skunkworks>
-			<Bento
-				associatedLogos={[
-					{ svgSrc: reactLogo.src, title: 'React' },
-					{ svgSrc: tsLogo.src, title: 'TypeScript' },
-					{ svgSrc: pixiLogo.src, title: 'PixiJS' },
-					{ svgSrc: zustandLogo.src, title: 'Zustand' },
-					{ svgSrc: chromeextLogo.src, title: 'Extension Development' },
-					{ svgSrc: spineLogo.src, title: 'Spine3D' },
-					{ svgSrc: viteLogo.src, title: 'Vite' },
-				]}
-				layoutVariant="alt"
-			>
-				<slot slot="top-left">
-					<TrexLogo width={400} height={400} class="invert-dark" />
-				</slot>
-				<slot slot="top-right">
-					<Paragraph heading="Browsersaurus, Personal project">
-						A Chrome extension game where every website you visit spawns a unique collectible
-						dinosaur. Built solo to explore the challenge of running a fully featured creature
-						collection game within browser extension constraints. No native modules, limited storage
-						and deterministic skin generation.
-					</Paragraph>
-					<Button href="/projects/browsersaurus" text="More about Stan" />
-				</slot>
-			</Bento>
-		</ContentCard>
-		<Spacer double />
 		<ContentCard>
 			<Bento
 				associatedLogos={[
 					{ svgSrc: reactLogo.src, title: 'React' },
 					{ svgSrc: tsLogo.src, title: 'TypeScript' },
 					{ svgSrc: frameworkLogo.src, title: 'Hooks & Context' },
-					{ svgSrc: webpackLogo.src, title: 'Webpack' },
+					{ svgSrc: greenFieldLogo.src, title: 'Greenfield' },
+					{ svgSrc: spaghettiLogo.src, title: 'Legacy rewrite' },
 				]}
 				layoutVariant="alt"
 			>
@@ -200,6 +209,12 @@ import pwLogo from '../assets/pw-logo.svg';
 				</slot>
 			</Bento>
 		</ContentCard>
+		<Spacer triple />
+		<Footer
+			githubUrl="https://github.com/samseabourn"
+			linkedinUrl="https://linkedin.com/in/samseabourn"
+			email="mailto:sam@samseabourn.com"
+		/>
 	</CenterContainer>
 	<script>
 		import { getRuntimeStats } from '../helpers/runtime-stats';

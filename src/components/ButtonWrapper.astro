@@ -1,0 +1,30 @@
+---
+interface Props {
+	position: 'left' | 'center' | 'right';
+}
+
+const { position } = Astro.props;
+
+let flexJustify = 'center';
+switch (position) {
+	case 'left':
+		flexJustify = 'start';
+		break;
+	case 'right':
+		flexJustify = 'end';
+		break;
+	default:
+		break;
+}
+---
+
+<div style={{ justifyContent: flexJustify }}>
+	<slot />
+</div>
+
+<style>
+	div {
+		display: flex;
+		width: 100%;
+	}
+</style>

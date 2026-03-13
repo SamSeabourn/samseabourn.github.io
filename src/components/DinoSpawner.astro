@@ -77,12 +77,13 @@
 				backgroundColor: 'black',
 			});
 
-			const appCanvas = pixiApp.view as HTMLCanvasElement;
-			appCanvas.style.position = 'fixed';
-			appCanvas.style.zIndex = '10';
-			appCanvas.style.top = '0';
-			appCanvas.id = '🦖_ _ _ _ _ ';
-			appCanvas.style.pointerEvents = 'none';
+		const appCanvas = pixiApp.view as HTMLCanvasElement;
+		appCanvas.style.position = 'fixed';
+		appCanvas.style.zIndex = '10';
+		appCanvas.style.top = '0';
+		appCanvas.id = '🦖_ _ _ _ _ ';
+		appCanvas.style.pointerEvents = 'none';
+		appCanvas.style.filter = `hue-rotate(${Math.random() * 20 - 10}deg)`;
 
 			dinoRoot.appendChild(appCanvas);
 

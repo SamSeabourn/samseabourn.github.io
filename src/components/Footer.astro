@@ -1,0 +1,178 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+	githubUrl?: string;
+	linkedinUrl?: string;
+	email?: string;
+}
+
+const {
+	githubUrl = 'https://github.com',
+	linkedinUrl = 'https://linkedin.com',
+	email = 'mailto:contact@example.com',
+} = Astro.props;
+---
+
+<footer class="footer-section">
+	<div class="footer-container">
+		<h2 class="heading footer-title">Let's Connect</h2>
+		<div class="contact-grid">
+			<div class="contact-item">
+				<div class="logo-placeholder">
+					<svg
+						width="200"
+						height="200"
+						viewBox="0 0 200 200"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<rect x="20" y="20" width="160" height="160" stroke="currentColor" stroke-width="4"
+						></rect>
+						<text
+							x="100"
+							y="110"
+							text-anchor="middle"
+							fill="currentColor"
+							font-family="monospace"
+							font-size="20">LinkedIn</text
+						>
+					</svg>
+				</div>
+				<Button href={linkedinUrl} text="LinkedIn" type="primary" />
+			</div>
+
+			<div class="contact-item">
+				<div class="logo-placeholder">
+					<svg
+						width="200"
+						height="200"
+						viewBox="0 0 200 200"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="4"></circle>
+						<text
+							x="100"
+							y="110"
+							text-anchor="middle"
+							fill="currentColor"
+							font-family="monospace"
+							font-size="20">GitHub</text
+						>
+					</svg>
+				</div>
+				<Button href={githubUrl} text="GitHub" type="primary" />
+			</div>
+
+			<div class="contact-item">
+				<div class="logo-placeholder">
+					<svg
+						width="200"
+						height="200"
+						viewBox="0 0 200 200"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<polygon
+							points="100,20 180,100 100,180 20,100"
+							stroke="currentColor"
+							stroke-width="4"
+							fill="none"></polygon>
+						<text
+							x="100"
+							y="110"
+							text-anchor="middle"
+							fill="currentColor"
+							font-family="monospace"
+							font-size="20">Email</text
+						>
+					</svg>
+				</div>
+				<Button href={email} text="Email" type="primary" />
+			</div>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer-section {
+		width: 100%;
+		background-color: #f0e02d;
+		padding: clamp(2rem, 4vw, 4rem) 0;
+	}
+
+	.footer-container {
+		width: clamp(80%, 85vw, 90%);
+		max-width: 1400px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: clamp(2rem, 3vw, 3rem);
+	}
+
+	.footer-title {
+		text-align: center;
+		color: #000000;
+		background: none;
+		padding: 0;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: clamp(1rem, 3vw, 2rem);
+		align-items: start;
+	}
+
+	.contact-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: clamp(1rem, 2vw, 1.5rem);
+	}
+
+	.logo-placeholder {
+		width: 100%;
+		max-width: 200px;
+		aspect-ratio: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #000000;
+	}
+
+	.logo-placeholder svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.logo-placeholder {
+			max-width: 150px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.contact-grid {
+			gap: clamp(0.5rem, 2vw, 1rem);
+		}
+
+		.logo-placeholder {
+			max-width: 120px;
+		}
+	}
+
+	/* Ensure yellow background in dark mode */
+	@media (prefers-color-scheme: dark) {
+		.footer-section {
+			background-color: #f0e02d;
+		}
+
+		.footer-title,
+		.logo-placeholder {
+			color: #000000;
+		}
+	}
+</style>

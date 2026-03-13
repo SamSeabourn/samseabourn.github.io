@@ -1,0 +1,175 @@
+---
+interface Props {
+	src: string;
+	poster?: string;
+	alt?: string;
+	width: number;
+	height: number;
+}
+
+const { src, poster, alt = 'Demo video', width, height } = Astro.props;
+---
+
+<div class="video-container" data-video-container>
+	<video
+		class="demo-video"
+		data-video-src={src}
+		width={width}
+		height={height}
+		loop
+		muted
+		playsinline
+		webkit-playsinline
+		aria-label={alt}
+	>
+		<source data-src={src} type="video/mp4" />
+		Your browser does not support the video tag.
+	</video>
+	<div class="video-overlay" data-video-overlay>
+		{poster && <img src={poster} alt="" class="overlay-poster" />}
+		<div class="play-button">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				fill="currentColor"
+				width="64"
+				height="64"
+			>
+				<path d="M8 5v14l11-7z"></path>
+			</svg>
+		</div>
+	</div>
+</div>
+
+<style>
+	.video-container {
+		position: relative;
+		width: 100%;
+		cursor: pointer;
+	}
+
+	.demo-video {
+		width: 100%;
+		height: auto;
+		display: block;
+		max-width: 100%;
+	}
+
+	.video-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+		opacity: 1;
+		transition: opacity 0.4s ease;
+		pointer-events: none;
+	}
+
+	.video-overlay.fade-out {
+		opacity: 0;
+	}
+
+	.video-overlay.paused {
+		opacity: 0.5;
+	}
+
+	.overlay-poster {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: 1;
+	}
+
+	.play-button {
+		position: relative;
+		z-index: 2;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.9);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+		transition: transform 0.2s ease;
+	}
+
+	.play-button:hover {
+		transform: scale(1.1);
+	}
+
+	@media (max-width: 768px) {
+		.play-button {
+			width: 64px;
+			height: 64px;
+		}
+
+		.play-button svg {
+			width: 48px;
+			height: 48px;
+		}
+	}
+</style>
+
+<script>
+	import { createFirstInteractionListener } from '../helpers/create-first-interaction-listener';
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const containers = document.querySelectorAll('[data-video-container]');
+
+		containers.forEach((container) => {
+			const videoElement = container.querySelector('video[data-video-src]') as HTMLVideoElement;
+			const overlay = container.querySelector('[data-video-overlay]') as HTMLElement;
+			const videoSrc = videoElement?.getAttribute('data-video-src');
+
+			if (!videoElement || !overlay || !videoSrc) return;
+
+			let isLoaded = false;
+
+			// Load video on first interaction
+			const loadVideo = () => {
+				if (isLoaded) return;
+				isLoaded = true;
+
+				const source = videoElement.querySelector('source');
+				if (source && !source.src) {
+					source.src = videoSrc;
+					videoElement.load();
+				}
+			};
+
+			// Toggle play/pause on click
+			const togglePlay = () => {
+				loadVideo();
+
+				if (videoElement.paused) {
+					videoElement.play().then(() => {
+						overlay.classList.remove('paused');
+						overlay.classList.add('fade-out');
+					});
+				} else {
+					videoElement.pause();
+					overlay.classList.remove('fade-out');
+					overlay.classList.add('paused');
+				}
+			};
+
+			// Click handler
+			container.addEventListener('click', togglePlay);
+
+			// Load video after first user interaction anywhere on page
+			createFirstInteractionListener(loadVideo);
+		});
+	});
+</script>

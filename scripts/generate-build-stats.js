@@ -37,108 +37,134 @@ const formatPlatformFixed = (platform, cpus, arch) => {
 	return `${platformStr} (${cpuStr}-core ${archStr})`;
 };
 
-const getFileSize = async (filePath) => {
-	const stats = await stat(filePath);
-	return stats.size;
-};
-
 const getGzipSize = async (input) => {
-	// Accept either file path or content string
 	let content;
 	if (typeof input === 'string' && input.startsWith('/')) {
-		// It's a file path
 		content = await readFile(input);
 	} else if (typeof input === 'string') {
-		// It's HTML content string
 		content = Buffer.from(input, 'utf-8');
 	} else {
-		// It's already a buffer
 		content = input;
 	}
 	const compressed = await gzip(content);
 	return compressed.length;
 };
 
-const getAllFiles = async (dir, fileList = []) => {
-	const files = await readdir(dir, { withFileTypes: true });
+const extractResourcesFromHtml = (htmlContent) => {
+	const resources = {
+		js: [],
+		css: [],
+		images: [],
+		fonts: [],
+	};
 
-	for (const file of files) {
-		const filePath = join(dir, file.name);
-		if (file.isDirectory()) {
-			await getAllFiles(filePath, fileList);
-		} else {
-			// Exclude build-stats.txt from calculations
-			if (file.name !== 'build-stats.txt') {
-				fileList.push(filePath);
-			}
-		}
+	// Extract external JS files (script src="...")
+	const scriptMatches = htmlContent.matchAll(/<script[^>]+src=["']([^"']+)["']/g);
+	for (const match of scriptMatches) {
+		resources.js.push(match[1]);
 	}
 
-	return fileList;
+	// Extract external CSS files (link href="..." rel="stylesheet")
+	const cssMatches = htmlContent.matchAll(/<link[^>]+href=["']([^"']+\.css)["']/g);
+	for (const match of cssMatches) {
+		resources.css.push(match[1]);
+	}
+
+	// Extract font preloads (link href="..." as="font")
+	const fontMatches = htmlContent.matchAll(/<link[^>]+href=["']([^"']+\.(woff2?|ttf|eot|otf))["']/g);
+	for (const match of fontMatches) {
+		resources.fonts.push(match[1]);
+	}
+
+	// Extract images from <img src> and <source srcset>
+	const imgMatches = htmlContent.matchAll(/<img[^>]+src=["']([^"']+)["']/g);
+	for (const match of imgMatches) {
+		resources.images.push(match[1]);
+	}
+
+	const srcsetMatches = htmlContent.matchAll(/srcset=["']([^"']+)["']/g);
+	for (const match of srcsetMatches) {
+		const urls = match[1].split(',').map(s => s.trim().split(' ')[0]);
+		resources.images.push(...urls);
+	}
+
+	// Extract SVG URLs from data-svg-url attributes
+	const svgDataMatches = htmlContent.matchAll(/data-svg-url=["']([^"']+)["']/g);
+	for (const match of svgDataMatches) {
+		resources.images.push(match[1]);
+	}
+
+	// Deduplicate
+	resources.js = [...new Set(resources.js)];
+	resources.css = [...new Set(resources.css)];
+	resources.images = [...new Set(resources.images)];
+	resources.fonts = [...new Set(resources.fonts)];
+
+	return resources;
 };
 
 const generateStats = async () => {
 	const startTime = Date.now();
 
-	// Get all files in dist
-	const allFiles = await getAllFiles(DIST_DIR);
-
 	// Index.html stats
 	const indexPath = join(DIST_DIR, 'index.html');
-	const indexSize = await getFileSize(indexPath);
+	const indexHtmlContent = await readFile(indexPath, 'utf-8');
 	const indexGzipSize = await getGzipSize(indexPath);
 
-	// Categorize assets
-	const assets = {
-		js: [],
-		css: [],
-		images: [],
-		svg: [],
-		fonts: [],
-		other: [],
+	// Extract resources referenced by index.html
+	const resources = extractResourcesFromHtml(indexHtmlContent);
+
+	// Calculate sizes for only resources loaded by home page
+	const totalsByType = {
+		js: 0,
+		css: 0,
+		images: 0,
+		fonts: 0,
 	};
 
-	let totalSize = 0;
-	let totalGzipSize = 0;
-
-	for (const file of allFiles) {
-		const size = await getFileSize(file);
-		const gzipSize = await getGzipSize(file);
-		const ext = extname(file).toLowerCase();
-		const relativePath = file.replace(DIST_DIR, '');
-
-		totalSize += size;
-		totalGzipSize += gzipSize;
-
-		const assetInfo = {
-			path: relativePath,
-			size,
-			gzipSize,
-		};
-
-		if (ext === '.js') {
-			assets.js.push(assetInfo);
-		} else if (ext === '.css') {
-			assets.css.push(assetInfo);
-		} else if (['.png', '.jpg', '.jpeg', '.webp', '.gif', '.avif'].includes(ext)) {
-			assets.images.push(assetInfo);
-		} else if (ext === '.svg') {
-			assets.svg.push(assetInfo);
-		} else if (['.woff', '.woff2', '.ttf', '.eot', '.otf'].includes(ext)) {
-			assets.fonts.push(assetInfo);
-		} else {
-			assets.other.push(assetInfo);
+	// JS files
+	for (const jsPath of resources.js) {
+		const fullPath = join(DIST_DIR, jsPath);
+		try {
+			const gzipSize = await getGzipSize(fullPath);
+			totalsByType.js += gzipSize;
+		} catch (err) {
+			console.warn(`Warning: Could not read ${jsPath}`);
 		}
 	}
 
-	// Calculate totals by type
-	const totalsByType = {
-		js: assets.js.reduce((sum, a) => sum + a.gzipSize, 0),
-		css: assets.css.reduce((sum, a) => sum + a.gzipSize, 0),
-		images: assets.images.reduce((sum, a) => sum + a.gzipSize, 0),
-		svg: assets.svg.reduce((sum, a) => sum + a.gzipSize, 0),
-		fonts: assets.fonts.reduce((sum, a) => sum + a.gzipSize, 0),
-	};
+	// CSS files
+	for (const cssPath of resources.css) {
+		const fullPath = join(DIST_DIR, cssPath);
+		try {
+			const gzipSize = await getGzipSize(fullPath);
+			totalsByType.css += gzipSize;
+		} catch (err) {
+			console.warn(`Warning: Could not read ${cssPath}`);
+		}
+	}
+
+	// Images
+	for (const imgPath of resources.images) {
+		const fullPath = join(DIST_DIR, imgPath);
+		try {
+			const gzipSize = await getGzipSize(fullPath);
+			totalsByType.images += gzipSize;
+		} catch (err) {
+			console.warn(`Warning: Could not read ${imgPath}`);
+		}
+	}
+
+	// Fonts
+	for (const fontPath of resources.fonts) {
+		const fullPath = join(DIST_DIR, fontPath);
+		try {
+			const gzipSize = await getGzipSize(fullPath);
+			totalsByType.fonts += gzipSize;
+		} catch (err) {
+			console.warn(`Warning: Could not read ${fontPath}`);
+		}
+	}
 
 	// System info
 	const systemInfo = {
@@ -151,22 +177,86 @@ const generateStats = async () => {
 
 	const buildTime = Date.now() - startTime;
 
+	// Calculate HTML composition breakdown
+	const calculateHtmlBreakdown = (htmlContent) => {
+		const styleMatches = htmlContent.match(/<style>[\s\S]*?<\/style>/g) || [];
+		const scriptMatches = htmlContent.match(/<script[^>]*>[\s\S]*?<\/script>/g) || [];
+		const inlineCSS = styleMatches.join('');
+		const inlineJS = scriptMatches.join('');
+
+		let pureHTML = htmlContent;
+		pureHTML = pureHTML.replace(/<style>[\s\S]*?<\/style>/g, '');
+		pureHTML = pureHTML.replace(/<script[^>]*>[\s\S]*?<\/script>/g, '');
+
+		const gzipSize = (str) => {
+			const compressed = zlib.gzipSync(Buffer.from(str));
+			return compressed.length;
+		};
+
+		const cssGzipped = gzipSize(inlineCSS);
+		const jsGzipped = gzipSize(inlineJS);
+		const htmlGzipped = gzipSize(pureHTML);
+		const total = cssGzipped + jsGzipped + htmlGzipped;
+
+		return {
+			cssPercent: Math.round((cssGzipped / total) * 100),
+			jsPercent: Math.round((jsGzipped / total) * 100),
+			htmlPercent: Math.round((htmlGzipped / total) * 100),
+		};
+	};
+
+	const htmlBreakdown = calculateHtmlBreakdown(indexHtmlContent);
+
+	// Ensure percentages add up to 100%
+	let { htmlPercent, cssPercent, jsPercent } = htmlBreakdown;
+	const total = htmlPercent + cssPercent + jsPercent;
+	if (total !== 100) {
+		// Adjust the largest percentage to make it exactly 100%
+		const diff = 100 - total;
+		if (htmlPercent >= cssPercent && htmlPercent >= jsPercent) {
+			htmlPercent += diff;
+		} else if (cssPercent >= jsPercent) {
+			cssPercent += diff;
+		} else {
+			jsPercent += diff;
+		}
+	}
+
+	// Create visual bar (15 chars total - half the size)
+	const createVisualBar = (htmlPercent, cssPercent, jsPercent) => {
+		const totalChars = 15;
+		const htmlChars = Math.round((htmlPercent / 100) * totalChars);
+		const cssChars = Math.round((cssPercent / 100) * totalChars);
+		const jsChars = totalChars - htmlChars - cssChars; // Ensure exact 15 chars
+
+		return '█'.repeat(htmlChars) + '▓'.repeat(cssChars) + '░'.repeat(jsChars);
+	};
+
+	const visualBar = createVisualBar(htmlPercent, cssPercent, jsPercent);
+
+	// Log found resources for debugging
+	console.log('\n📊 Home page resources:');
+	console.log(`  JS files: ${resources.js.length}`);
+	console.log(`  CSS files: ${resources.css.length}`);
+	console.log(`  Images: ${resources.images.length}`);
+	console.log(`  Fonts: ${resources.fonts.length}\n`);
+
 	// Build a temporary stats string to measure injection overhead
 	const buildStatsString = (htmlGzipSize) => [
 		'▌║█║▌│║▌│║▌║▌█║ Dont Blink ▌│║▌║▌│║║▌█║▌║█',
 		' ',
 		'LIGHTHOUSE: 100/100/100/100 (browser/mobile)',
-		`BUILD SYS: ${formatPlatformFixed(systemInfo.platform, systemInfo.cpus || 8, systemInfo.arch)}`,
+		`HTML: ${formatBytesFixed(htmlGzipSize)} [${visualBar}] ${htmlPercent}% html | ${cssPercent}% css | ${jsPercent}% js`,
+		' ',
+		`BUILD SYS: ${formatPlatformFixed(systemInfo.platform, systemInfo.cpus || '', systemInfo.arch.trimEnd())}`,
 		`BUILD TIME: ${formatBuildTimeFixed(buildTime)}`,
-		`HTML: ${formatBytesFixed(htmlGzipSize)}`,
+		' ',
+		`FONT FILES: ${formatBytesFixed(totalsByType.fonts)}`,
+		`IMG FILES: ${formatBytesFixed(totalsByType.images)}`,
+		`CSS FILEs: ${formatBytesFixed(totalsByType.css)}`,
 		`JS FILES: ${formatBytesFixed(totalsByType.js)}`,
-		`CSS: ${formatBytesFixed(totalsByType.css)}`,
-		`IMG: ${formatBytesFixed(totalsByType.images)}`,
-		`FONTS: ${formatBytesFixed(totalsByType.fonts)}`,
+		' ',
 	].join('\n');
-
-	// Only process index.html (home page)
-	const indexHtmlContent = await readFile(indexPath, 'utf-8');
 
 	if (indexHtmlContent.includes('`__STATS__`')) {
 		// Step 1: Build temporary stats with current measurement

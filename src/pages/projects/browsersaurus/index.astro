@@ -69,11 +69,11 @@ import DinoSpawner from '../../../components/DinoSpawner.astro';
 					native and magical in the most locked down environment on the web.
 				</Paragraph>
 			</div>
-			<Button
-				type="experimental"
-				text="Spawn a T-Rex"
-				onclick="window.dispatchEvent(new Event('spawn-dino-event'))"
-			/>
+		<Button
+			type="experimental"
+			text="Spawn a T-Rex"
+			onclick="this.disabled = true; window.dispatchEvent(new Event('spawn-dino-event'))"
+		/>
 		</ContentCard>
 		<Spacer triple />
 	</CenterContainer>

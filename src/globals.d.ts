@@ -8,7 +8,8 @@ interface AnimateSvgPathOptions {
 declare global {
 	interface Window {
 		handDrawnSVGIndex: number;
-		animateSvgPath: (element: SVGElement, options?: AnimateSvgPathOptions) => Promise<void>;
+		animateSvgPath: (element: any, options?: AnimateSvgPathOptions) => Promise<void>;
+		trexStomp: () => void
 	}
 }
 

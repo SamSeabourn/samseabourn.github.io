@@ -1,4 +1,6 @@
 ---
+import Spacer from './Spacer.astro';
+
 interface Props {
 	doodleId?: string;
 }
@@ -14,6 +16,7 @@ const { doodleId } = Astro.props as Props;
 		<slot name="doodle" />
 	</div>
 </div>
+<Spacer />
 
 <style>
 	.banner-stack {

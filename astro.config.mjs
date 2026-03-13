@@ -34,12 +34,8 @@ export default defineConfig({
 		server: {
 			host: true,
 		},
-		preview: {
-			host: true,
-			allowedHosts: ['.ngrok-free.app', '.ngrok.io'],
-		},
 		esbuild: {
-			// drop: ['console', 'debugger'],
+			drop: ['console', 'debugger'],
 		},
 	},
 });

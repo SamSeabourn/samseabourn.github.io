@@ -7,6 +7,7 @@ import ContentCard from '../../../components/ContentCard.astro';
 import CenterContainer from '../../../components/CenterContainer.astro';
 import Paragraph from '../../../components/Paragraph.astro';
 import Spacer from '../../../components/Spacer.astro';
+import DemoVideo from '../../../components/DemoVideo.astro';
 ---
 
 <Layout>
@@ -26,6 +27,8 @@ import Spacer from '../../../components/Spacer.astro';
 					<br />
 					From the 2024 Olympics to daily binge watching, every stream on TV runs through code I've written.
 				</Paragraph>
+				<Spacer />
+				<DemoVideo src="/stan.mp4" poster="/stan-poster.jpg" width={1280} height={720} />
 			</div>
 			<div class="pad">
 				<Paragraph heading="Open Source,Awards, and Big Wins">
@@ -38,12 +41,12 @@ import Spacer from '../../../components/Spacer.astro';
 					>, work that earned the Nine Digital Annual Award for "No Stone Left Unturned" (one of
 					only four awards given annually).
 					<br />
-					Led a device compatibility initiative that brought 2015+ legacy devices onto the latest app
+					I Led a device performance initiative that brought 2015+ legacy devices onto the latest app
 					version, increasing platform coverage by 30%.
 					<br />
-					My work spans video playback engineering, performance optimisation, internal tooling, and systems
-					architecture. I am always focused on making Stan work flawlessly on extremely constrained hardware
-					running ancient browser webviews.
+					My work spans video playback engineering, performance optimisation, internal tooling, systems
+					design and architecture. I am focused on making Stan work flawlessly on extremely constrained
+					hardware running ancient browser webviews.
 				</Paragraph>
 			</div>
 			<div class="pad">
@@ -65,41 +68,43 @@ import Spacer from '../../../components/Spacer.astro';
 			</div>
 			<div class="pad">
 				<Paragraph heading="Systems,Tools, and Team Impact">
-					Beyond features, I build the infrastructure teams rely on.
+					I build the infrastructure teams rely on.
 					<br />
 					Designed testing pipelines for QA teams enabling robust video and ad testing across devices.
 					<br />
 					Built internal libraries for logging, performant animations, analytics, and error handling used
 					across all platforms.
 					<br />
-					Refactored monolithic codebases into modular components.
+					Refactored monolithic the codebase into a modular, functional and testable monorepo.
 					<br />
 					I've Mentored junior developers, hosted organisation wide tech talks, and represented developers
 					in Stan's internal design system guild.
 					<br />
-					My team also won the "Best teamwork award in the Nine digitals "Hack into History" hackathon,
-					proving good code can be fun too.
+					My team won the "Best teamwork award in the Nine digitals "Hack into History" hackathon, proving
+					good code can be fun too.
 				</Paragraph>
 			</div>
+
+			<Spacer />
 		</ContentCard>
 		<Spacer triple />
 	</CenterContainer>
+
+	<style>
+		.inline-link {
+			color: var(--text);
+			text-decoration: underline;
+			text-decoration-thickness: 2px;
+			text-underline-offset: 3px;
+			transition: opacity 0.2s ease;
+		}
+
+		.pad {
+			padding: 20px;
+		}
+
+		.inline-link:hover {
+			opacity: 0.7;
+		}
+	</style>
 </Layout>
-
-<style>
-	.inline-link {
-		color: var(--text);
-		text-decoration: underline;
-		text-decoration-thickness: 2px;
-		text-underline-offset: 3px;
-		transition: opacity 0.2s ease;
-	}
-
-	.pad {
-		padding: 20px;
-	}
-
-	.inline-link:hover {
-		opacity: 0.7;
-	}
-</style>

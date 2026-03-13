@@ -37,52 +37,53 @@ export const animateSvgPath = (
 		`;
 		document.head.appendChild(styleSheet);
 
-	const preparePath = (path: SVGPathElement) => {
-		path.setAttribute('pathLength', steps.toString());
-		path.style.strokeDasharray = `${steps}`;
-		path.style.strokeDashoffset = `${steps}`;
-		path.style.strokeLinejoin = 'round';
-		path.style.strokeLinecap = 'round';
-	};
+		const preparePath = (path: SVGPathElement) => {
+			path.setAttribute('pathLength', steps.toString());
+			path.style.strokeDasharray = `${steps}`;
+			path.style.strokeDashoffset = `${steps}`;
+			path.style.opacity = '0';
+			path.style.strokeLinejoin = 'round';
+			path.style.strokeLinecap = 'round';
+		};
 
-	const animateSinglePath = (path: SVGPathElement) => {
-		return new Promise<void>((pathResolve) => {
-			path.style.animation = 'none';
-			void path.offsetHeight;
+		const animateSinglePath = (path: SVGPathElement) => {
+			return new Promise<void>((pathResolve) => {
+				path.style.opacity = '1';
+				path.style.animation = 'none';
 
-			const handleEnd = () => {
-				path.style.strokeDashoffset = '0';
-				pathResolve();
-			};
+				const handleEnd = () => {
+					path.style.strokeDashoffset = '0';
+					pathResolve();
+				};
 
-			path.addEventListener('animationend', handleEnd, { once: true });
-			path.style.animation = `${keyframesName} ${duration}s ${timingFunction} forwards`;
-		});
-	};
+				path.addEventListener('animationend', handleEnd, { once: true });
+				path.style.animation = `${keyframesName} ${duration}s ${timingFunction} forwards`;
+			});
+		};
 
 		const runAnimations = async () => {
 			if (sequencePaths) {
-				// Prepare (hide) ALL paths BEFORE starting sequence
-				paths.forEach(preparePath as (path: Element) => void);
-
-				// Then animate them one by one
+				for (const path of paths) {
+					preparePath(path)
+				}
 				for (const path of paths) {
 					await animateSinglePath(path as SVGPathElement);
 				}
 			} else {
-			paths.forEach(preparePath as (path: Element) => void);
-			await Promise.all(
-				paths.map((path) => {
-					return new Promise<void>((pathResolve) => {
-						const handleEnd = () => {
-							(path as SVGPathElement).style.strokeDashoffset = '0';
-							pathResolve();
-						};
-						path.addEventListener('animationend', handleEnd, { once: true });
-						(path as SVGPathElement).style.animation = `${keyframesName} ${duration}s ${timingFunction} forwards`;
-					});
-				})
-			);
+				paths.forEach(preparePath as (path: Element) => void);
+				await Promise.all(
+					paths.map((path) => {
+						path.style.opacity = '1';
+						return new Promise<void>((pathResolve) => {
+							const handleEnd = () => {
+								(path as SVGPathElement).style.strokeDashoffset = '0';
+								pathResolve();
+							};
+							path.addEventListener('animationend', handleEnd, { once: true });
+							(path as SVGPathElement).style.animation = `${keyframesName} ${duration}s ${timingFunction} forwards`;
+						});
+					})
+				);
 			}
 		};
 
