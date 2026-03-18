@@ -19,6 +19,7 @@ export default defineConfig({
 		Compress({
 			CSS: true,
 			HTML: true,
+			Image: false,
 			JavaScript: true,
 			SVG: false,
 			Logger: 2,
