@@ -26,7 +26,7 @@ const formatBytesFixed = (bytes) => {
 
 const formatBuildTimeFixed = (ms) => {
 	// Always return format: 0000.0ms (11 chars)
-	return (ms / 10).toFixed(1).padStart(6, '0') + 'ms';
+	return ms.toFixed(1).padStart(6, '0') + 'ms';
 };
 
 const formatPlatformFixed = (platform, cpus, arch) => {
@@ -247,9 +247,6 @@ const generateStats = async () => {
 		' ',
 		'LIGHTHOUSE: 100/100/100/100 (browser/mobile)',
 		`HTML: ${formatBytesFixed(htmlGzipSize)} [${visualBar}] ${htmlPercent}% html | ${cssPercent}% css | ${jsPercent}% js`,
-		' ',
-		`BUILD SYS: ${formatPlatformFixed(systemInfo.platform, systemInfo.cpus || '', systemInfo.arch.trimEnd())}`,
-		`BUILD TIME: ${formatBuildTimeFixed(buildTime)}`,
 		' ',
 		`FONT FILES: ${formatBytesFixed(totalsByType.fonts)}`,
 		`IMG FILES: ${formatBytesFixed(totalsByType.images)}`,

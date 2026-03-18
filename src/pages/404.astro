@@ -1,0 +1,58 @@
+---
+import Layout from '../layout/Layout.astro';
+import CenterContainer from '../components/CenterContainer.astro';
+import Button from '../components/Button.astro';
+import ButtonWrapper from '../components/ButtonWrapper.astro';
+import Spacer from '../components/Spacer.astro';
+---
+
+<Layout>
+	<CenterContainer>
+		<section>
+			<Spacer triple />
+			<div class="ascii-shrug">404 ¯\_(ツ)_/¯</div>
+			<Spacer />
+			<p class="error-message">No page here</p>
+			<Spacer />
+			<ButtonWrapper position="center">
+				<Button href="/" text="Return to Home" />
+			</ButtonWrapper>
+			<Spacer triple />
+		</section>
+	</CenterContainer>
+</Layout>
+
+<style>
+	.ascii-shrug {
+		font-size: clamp(3rem, 8vw, 6rem);
+		text-align: center;
+		line-height: 1;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		color: #4c354c;
+		margin: 0 auto;
+	}
+
+	.error-message {
+		text-align: center;
+		font-size: clamp(1.25rem, 3vw, 1.875rem);
+		color: #4c354c;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		margin: 2rem 0;
+	}
+
+	section {
+		height: 100vh;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.ascii-shrug,
+		.error-message {
+			color: #cecece;
+		}
+	}
+</style>

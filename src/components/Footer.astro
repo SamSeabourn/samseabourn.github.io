@@ -24,11 +24,22 @@ const {
 			<div class="contact-items-group">
 				<Button href={linkedinUrl} text="LinkedIn" icon={linkedinLogo.src} type="primary" />
 				<Button href={githubUrl} text="GitHub" icon={githubLogo.src} type="primary" />
-				<Button href={email} text="Email" icon={emailLogo.src} type="primary" />
+				<Button href={email} text="Email" icon={emailLogo.src} type="primary" id="email-button" />
 			</div>
 		</div>
 	</div>
 </footer>
+
+<script>
+	// Anti-scraper email obfuscation
+	const emailButton = document.getElementById('email-button');
+	if (emailButton) {
+		const user = 'sam.seabourn';
+		const domain = 'gmail.com';
+		const mailto = 'mailto:' + user + '@' + domain;
+		emailButton.setAttribute('href', mailto);
+	}
+</script>
 
 <style>
 	.footer-section {
