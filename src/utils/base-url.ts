@@ -5,7 +5,9 @@ export const BASE_URL = import.meta.env.BASE_URL;
  * Works in both dev (/) and prod (/portfolio/)
  */
 export function asset(path: string): string {
-	// Remove leading slash if present to avoid double slashes
+	// Remove leading slash if present
 	const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-	return `${BASE_URL}${cleanPath}`;
+	// Ensure BASE_URL ends with slash
+	const baseWithSlash = BASE_URL.endsWith('/') ? BASE_URL : `${BASE_URL}/`;
+	return `${baseWithSlash}${cleanPath}`;
 }
