@@ -7,16 +7,16 @@ import Button from './Button.astro';
 import { asset } from '../utils/base-url';
 ---
 
+<div class="resume-button-wrapper">
+	<Button
+		href={asset('resume.pdf')}
+		text="Download Resume"
+		icon={downloadLogo.src}
+		type="primary"
+		download
+	/>
+</div>
 <div class="svg-stack">
-	<div class="resume-button-wrapper">
-		<Button
-			href={asset('resume.pdf')}
-			text="Download Resume"
-			icon={downloadLogo.src}
-			type="primary"
-			download
-		/>
-	</div>
 	<svg id="svg1" data-svg-url={SVG1.src} class="stacked-svg" style="opacity: 0"></svg>
 	<svg id="svg2" data-svg-url={SVG2.src} class="stacked-svg" style="opacity: 0"></svg>
 	<svg id="svg3" data-svg-url={SVG3.src} class="stacked-svg" style="opacity: 0"></svg>

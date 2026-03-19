@@ -8,9 +8,20 @@ interface Props {
 	onclick?: string;
 	download?: boolean;
 	icon?: string;
+	id?: string;
 }
 
-const { text, type = 'primary', disabled = false, href, tilt, onclick, download = false, icon } = Astro.props;
+const {
+	text,
+	type = 'primary',
+	disabled = false,
+	href,
+	tilt,
+	onclick,
+	download = false,
+	icon,
+	id,
+} = Astro.props;
 const Tag = href ? 'a' : 'button';
 const tiltStyle = tilt ? `transform: rotate(${tilt}deg);` : '';
 ---
@@ -23,6 +34,7 @@ const tiltStyle = tilt ? `transform: rotate(${tilt}deg);` : '';
 				disabled={disabled}
 				href={href}
 				style={tiltStyle}
+				id={id}
 				onclick={onclick}
 				download={download ? true : undefined}
 				aria-disabled={disabled ? 'true' : undefined}
@@ -39,6 +51,7 @@ const tiltStyle = tilt ? `transform: rotate(${tilt}deg);` : '';
 			href={href}
 			style={tiltStyle}
 			onclick={onclick}
+			id={id}
 			download={download ? true : undefined}
 			aria-disabled={disabled ? 'true' : undefined}
 		>
