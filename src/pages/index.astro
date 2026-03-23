@@ -46,11 +46,11 @@ import { asset } from '../utils/base-url';
 				<slot slot="top-left">
 					<img
 						src={asset('line-drawing-md.png')}
-						srcset={`${asset('line-drawing-sm.png')} 150w, ${asset('line-drawing-md.png')} 200w, ${asset('line-drawing-lg.png')} 300w`}
+						srcset={`${asset('line-drawing-sm.png')} 150w, ${asset('line-drawing-md.png')} 200w, ${asset('line-drawing-lg.png')} 300w, ${asset('line-drawing-xl.png')} 400w`}
 						sizes="(min-width: 768px) 200px, 150px"
 						alt="Sam Line drawing"
-						width="150"
-						height="300"
+						width="200"
+						height="338"
 						loading="lazy"
 						decoding="async"
 					/>
@@ -84,7 +84,7 @@ import { asset } from '../utils/base-url';
 					{ svgSrc: frameworkLogo.src, title: 'Frameworks Design' },
 					{ svgSrc: webpackLogo.src, title: 'Webpack' },
 					{ svgSrc: tvLogo.src, title: 'OTT, Smart TV, Console' },
-					{ svgSrc: compatLogo.src, title: 'Browser Compatibilit	y' },
+					{ svgSrc: compatLogo.src, title: 'Browser Compatibility' },
 					{ svgSrc: perfLogo.src, title: 'Web Performance Optimisation' },
 					{ svgSrc: spaghettiLogo.src, title: 'Legacy rewrite' },
 				]}
@@ -102,7 +102,7 @@ import { asset } from '../utils/base-url';
 					>
 					<Spacer />
 					<ButtonWrapper position="right">
-						<Button href={asset('stan')} text="More about Stan" />
+						<Button href={asset('stan')} text="Behind the stream" />
 					</ButtonWrapper>
 				</slot>
 			</Bento>
@@ -133,7 +133,7 @@ import { asset } from '../utils/base-url';
 					</Paragraph>
 					<Spacer />
 					<ButtonWrapper position="right">
-						<Button href={asset('browsersaurus')} text="More about Browsersaurus" />
+						<Button href={asset('browsersaurus')} text="Life, uh... finds a way" />
 					</ButtonWrapper>
 				</slot>
 			</Bento>
@@ -157,12 +157,12 @@ import { asset } from '../utils/base-url';
 					<Paragraph heading="Playwright-Embedded, Personal project">
 						An automated testing framework solving a previously unsolved problem: running E2E tests
 						on real hardware that uses embedded browsers. This project enables dynamic multi device
-						test orchestration without CDP, hardware, manual device configs or awkward native
-						platform test integration.
+						test orchestration without CDP, additional hardware, manual device configs or awkward
+						native platform test integration.
 					</Paragraph>
 					<Spacer />
 					<ButtonWrapper position="right">
-						<Button href={asset('playwright-embedded')} text="More info" />
+						<Button href={asset('playwright-embedded')} text="This shouldn't exist" />
 					</ButtonWrapper>
 				</slot>
 			</Bento>
@@ -184,10 +184,14 @@ import { asset } from '../utils/base-url';
 				</slot>
 				<slot slot="top-right">
 					<Paragraph heading="Frontend Engineer, Salt LMS">
-						Led a frontend modernisation project award winning LMS serving 300K+ users. Rebuilt 22
-						year old SCORM course player from legacy JavaScript into React, architected
-						authentication system, and shipped complete UI redesign while maintaining backward
-						compatibility.
+						The entire frontend of an award winning LMS, built solo from scratch. Working in React,
+						TypeScript and CSS modules, I covered authentication via OAuth 2.0, a white label design
+						system that let clients fully brand the product, dynamic certificate generation, multi
+						language support and custom results dashboards. I also took a 22 year old legacy
+						JavaScript SCORM player and rebuilt it as a clean React integration without breaking a
+						thing. On top of all that, I introduced tooling and UX processes to a design team that
+						had never worked in a structured design workflow before, effectively building the design
+						function alongside the product.
 					</Paragraph>
 				</slot>
 			</Bento>

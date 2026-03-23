@@ -234,13 +234,6 @@ const generateStats = async () => {
 
 	const visualBar = createVisualBar(htmlPercent, cssPercent, jsPercent);
 
-	// Log found resources for debugging
-	console.log('\n📊 Home page resources:');
-	console.log(`  JS files: ${resources.js.length}`);
-	console.log(`  CSS files: ${resources.css.length}`);
-	console.log(`  Images: ${resources.images.length}`);
-	console.log(`  Fonts: ${resources.fonts.length}\n`);
-
 	// Build a temporary stats string to measure injection overhead
 	const buildStatsString = (htmlGzipSize) => [
 		'▌║█║▌│║▌│║▌║▌█║ Dont Blink ▌│║▌║▌│║║▌█║▌║█',

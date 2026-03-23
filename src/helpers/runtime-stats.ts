@@ -92,8 +92,6 @@ export const getRuntimeStats = async () => {
 				`CLS: ${formatCls(metrics.cls)}`,
 				`NET: ${formatNet(metrics.net)}`,
 			].join('\n');
-
-			console.log('Runtime Stats:\n' + statsString);
 			resolve(statsString);
 		}, measurementDelay);
 	});
