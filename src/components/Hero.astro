@@ -7,16 +7,18 @@ import Button from './Button.astro';
 import { asset } from '../utils/base-url';
 ---
 
-<div class="resume-button-wrapper">
-	<Button
-		href={asset('resume.pdf')}
-		text="Download Resume"
-		icon={downloadLogo.src}
-		type="primary"
-		download
-	/>
-</div>
 <div class="svg-stack">
+	<div class="resume-button-wrapper">
+		<div class="resume-button">
+			<Button
+				href={asset('resume.pdf')}
+				text="Download Resume"
+				icon={downloadLogo.src}
+				type="primary"
+				download
+			/>
+		</div>
+	</div>
 	<svg id="svg1" data-svg-url={SVG1.src} class="stacked-svg" style="opacity: 0"></svg>
 	<svg id="svg2" data-svg-url={SVG2.src} class="stacked-svg" style="opacity: 0"></svg>
 	<svg id="svg3" data-svg-url={SVG3.src} class="stacked-svg" style="opacity: 0"></svg>
@@ -63,16 +65,20 @@ import { asset } from '../utils/base-url';
 	}
 
 	.resume-button-wrapper {
-		position: absolute;
-		top: 2rem;
-		right: 2rem;
 		z-index: 200;
+		height: 100%;
+		width: 100%;
+	}
+
+	.resume-button {
+		height: 4rem;
+		position: absolute;
+		right: 1rem;
 	}
 
 	@media (max-width: 768px) {
-		.resume-button-wrapper {
-			top: 29.5rem;
-			right: 1rem;
+		.resume-button {
+			bottom: 0;
 		}
 	}
 
@@ -95,6 +101,12 @@ import { asset } from '../utils/base-url';
 		justify-content: center;
 		align-items: center;
 		transform: scale(0.75) translateZ(0);
+	}
+
+	@media (max-width: 768px) {
+		.stacked {
+			transform: scale(0.95) translateZ(0);
+		}
 	}
 
 	.stacked-svg.visible {
@@ -142,6 +154,8 @@ import { asset } from '../utils/base-url';
 	.hero-sub-text-wrapper {
 		width: 100%;
 		display: flex;
+		position: absolute;
+		top: 0;
 		height: 100%;
 		align-items: center;
 		justify-content: center;

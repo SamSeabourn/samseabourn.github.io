@@ -128,28 +128,6 @@ const { associatedLogos, layoutVariant = 'default' } = Astro.props;
 			grid-column: span 2;
 		}
 	}
-	@media (min-width: 1200px) {
-		.bento-container {
-			grid-template-columns: repeat(3, 1fr);
-		}
-
-		.variant-alt .featured.first {
-			grid-column: span 1;
-			aspect-ratio: auto;
-			padding: 2rem;
-		}
-
-		.variant-alt .featured.second {
-			grid-column: span 2;
-			aspect-ratio: auto;
-			padding: 2rem;
-		}
-
-		.item {
-			grid-column: span 1;
-		}
-	}
-
 	@media (min-width: 1280px) {
 		.bento-container {
 			grid-template-columns: repeat(6, 1fr);
